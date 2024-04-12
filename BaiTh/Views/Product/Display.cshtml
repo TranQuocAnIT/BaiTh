@@ -1,0 +1,122 @@
+﻿@model BaiTh.Models.Product
+
+@{
+    ViewData["Title"] = "Display";
+}
+<style>
+    body {
+        background-color: whitesmoke;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .size-buttons {
+        margin-top: 10px;
+    }
+
+    .size-btn {
+        background-color: #ffffff;
+        color: #000000;
+        border: 1px solid #000000;
+        padding: 8px 16px;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .size-btn:active, .size-btn:focus {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+    /* Adjusted product name font style */
+    .product-name {
+        font-weight: bold; /* Make the product name bold */
+        font-size: 24px; /* Example font size */
+        /* Add any other font styles as desired */
+    }
+
+    /* Enhanced font style for "Product Details" */
+    .product-details-heading {
+        font-weight: bold; /* Make the text bold */
+        font-size: 28px; /* Example font size */
+        /* Add any other font styles as desired */
+    }
+</style>
+<h2 class="text-center text-uppercase product-details-heading">Product Details</h2>
+
+<div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-5 align-items-center">
+            <div class="row mt-2 justify-content-center">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="Product Image">
+                }
+            </div>
+            <div class="row  mt-2">
+                @if (ViewBag.lsImage != null)
+                {
+                    foreach (var img in ViewBag.lsImage)
+                    {
+                        <img class="m-1" src="@img.Url" alt="Product Image">
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6 bg-light">
+            <!-- Updated product name with enhanced font style -->
+            <h2 class="product-name">@Model.Name</h2>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="p-3  bg-light"><strong>Price:</strong></div>
+                </div>
+                <div class="col">
+                    <div class="p-3  bg-light">@Model.Price đ</div>
+                </div>
+            </div>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="p-3  bg-light"><strong>Description:</strong></div>
+                </div>
+                <div class="col">
+                    <div class="p-3  bg-light">@Model.Description</div>
+                </div>
+            </div>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="p-3  bg-light"><strong>Category:</strong></div>
+                </div>
+                <div class="col">
+                    <div class="p-3  bg-light">@Model.Category.Name</div>
+                </div>
+            </div>
+            <div class="row gx-5">
+                <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" name="quantity" value="1" min="1">
+                        <div class="input-group-append">
+                            <button class="btn btn-dark btn-add-to-cart">
+                                <i class="bi bi-cart-plus-fill"></i> Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="size-buttons">
+                <button class="size-btn">Size 37</button>
+                <button class="size-btn">Size 38</button>
+                <button class="size-btn">Size 41</button>
+                <button class="size-btn">Size 42</button>
+                <button class="size-btn">Size 43</button>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <a class="btn btn-outline-secondary" asp-area="Product" asp-action="Index">Back to shop</a>
+    </div>
+</div>
+<div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+<h2 class="text-center">Có thể bạn thích </h2>

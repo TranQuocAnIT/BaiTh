@@ -1,0 +1,248 @@
+﻿@model IEnumerable<BaiTh.Models.Product>
+
+
+@{
+    ViewData["Title"] = "Index";
+    int numOfQuantity = 1;
+}
+<link rel="stylesheet" href="~/css/ProductIndex.css" />
+@* <style>
+    body {
+        background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210120/pngtree-green-simple-clean-background-image_536886.jpg");
+    }
+</style>*@
+
+ <style>
+    .page-item.active .page-link {
+        background-color: black !important;
+        color: white !important;
+    }
+
+
+</style>
+
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANG CHỦ</title>
+    <!-- Bao gồm tệp CSS Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agency - Start Bootstrap Theme</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/ProductIndex.css" />
+</head>
+<body id="page-top">
+    <!-- Navigation-->
+    <!-- Masthead-->
+    <!-- Services-->
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <!-- Portfolio Grid-->
+   
+    <section class="page-section " id="portfolio">
+        <div class="container">
+            <div class="text-center">
+
+                <h2 class="section-heading text-uppercase">Sản Phẩm </h2>
+                <h3 class="section-subheading text-dark">Khám Phá Phong Cách Mới Tháng 4</h3>
+
+            </div>
+            <div class="list-group" id="categoryList">
+                <a href="#" class="list-group-item list-group-item-action category-item" data-category="">Tất cả sản phẩm</a>
+                @foreach (var category in Model.Select(p => p.Category.Name).Distinct())
+                {
+                    <a href="#" class="list-group-item list-group-item-action category-item" data-category="@category">Tìm theo loại: @category</a>
+                }
+            </div>
+            <div class="container">
+                <div class="row mt-3">
+
+                    <div class="col-md-6 mb-4">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm">
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <button id="searchButton" class="btn btn-dark">Tìm kiếm</button>
+                        <button id="showAllButton" class="btn btn-dark">Hiển thị tất cả sản phẩm</button>
+                    </div>
+                </div>
+            </div>
+            @{
+                // Số sản phẩm trên mỗi trang
+                var itemsPerPage = 9;
+                // Tính tổng số trang
+                var totalPages = (int)Math.Ceiling((double)Model.Count() / itemsPerPage);
+                // Trang hiện tại (mặc định là trang 1)
+                var currentPage = Context.Request.Query["page"].ToString();
+                if (string.IsNullOrEmpty(currentPage))
+                {
+                    currentPage = "1";
+                }
+                // Lấy chỉ mục bắt đầu và kết thúc của sản phẩm trên trang hiện tại
+                var startIndex = (Convert.ToInt32(currentPage) - 1) * itemsPerPage;
+                var endIndex = Math.Min(startIndex + itemsPerPage - 1, Model.Count() - 1);
+                // Dữ liệu sản phẩm trên trang hiện tại
+                var currentPageItems = Model.Skip(startIndex).Take(itemsPerPage);
+            }
+
+            <div class="row mt-3" id="productList">
+                @foreach (var item in currentPageItems)
+                {
+                    <div class="col-lg-4 col-md-6 mb-4 category-item" data-category="@item.Category.Name">
+                        <!-- Hiển thị sản phẩm -->
+                        <div class="product-card">
+                            <div class="badge">Hot</div>
+                            <div class="product-tumb">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="">
+                            </div>
+                            <div class="product-details">
+
+                                <span class="product-catagory">Category: @item.Category.Name </span>
+                                <h4><a href="">@item.Name</a></h4>
+                                <div class="product dec" style="text-align: justify;">@item.Description</div>
+                                <div class="product-price">@item.Price.ToString("#,##0") Vnđ</div>
+                                <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                                    <input type="hidden" name="productId" value="@item.Id" />
+                                    <div class="input-group mb-3">
+                                        <input type="number" class="form-control" name="quantity" value="1" min="1">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-dark btn-add-to-cart">
+                                                <i class="bi bi-cart-plus-fill"></i> Thêm vào giỏ hàng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">@item.Category.Name</small>
+                                        <div class="btn-group">
+                                            <a href="#" class="btn btn-sm btn-outline-dark">
+                                                <i class="bi bi-heart"></i>
+                                            </a>
+                                            <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Xem thêm</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Nút chuyển trang -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    @for (var i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == Convert.ToInt32(currentPage) ? "active" : "")">
+                            <a class="page-link btn btn-outline-dark text-dark" href="?page=@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+
+
+        </div>
+    </section>
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <section class="page-section bg-light" id="services">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Dịch vụ khác</h2>
+                <h3 class="section-subheading text-muted">Hãy đến và trải nghiệm những dịch vụ xuất sắc của chúng tôi ngay hôm nay</h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-cart-flatbed  fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Miễn phí ship</h4>
+                    <p class="text-muted">Với dịch vụ vận chuyển nhanh chóng và đáng tin cậy, bạn có thể nhận được đôi giày mới của mình ngay tại cửa nhà, tiết kiệm thời gian và năng lượng để thể hiện phong cách cá nhân một cách dễ dàng và thoải mái.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-brush fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Vệ sinh giày</h4>
+                    <p class="text-muted">chúng tôi cung cấp dịch vụ vệ sinh giày chuyên nghiệp, giúp duy trì độ sáng bóng và sạch sẽ cho đôi giày của bạn, mang đến cảm giác mới mẻ và tự tin mỗi ngày.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-right-left fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Chính sách đổi trả </h4>
+                    <p class="text-muted">Chúng tôi cam kết mang lại sự hài lòng cho khách hàng với dịch vụ đổi trả linh hoạt, giúp bạn yên tâm khi mua sắm và đảm bảo bạn luôn có được sản phẩm hoàn hảo cho phong cách của mình.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <!-- About-->
+    
+    <!-- Contact-->
+    <!-- Footer-->
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".category-item").on("click", function () {
+                var category = $(this).data("category");
+                $(".category-item").removeClass("active");
+                $(this).addClass("active");
+                if (category === "") {
+                    $("#productList .category-item").show();
+                } else {
+                    $("#productList .category-item").hide();
+                    $("#productList .category-item[data-category='" + category + "']").show();
+                }
+            });
+        });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $('#searchButton').click(function() {
+            var searchText = $('#searchInput').val().toLowerCase();
+            $('.category-item').hide().filter(function() {
+                return $(this).text().toLowerCase().indexOf(searchText) !== -1;
+            }).show();
+        });
+            $('#showAllButton').click(function () {
+                $('.category-item').show();
+            });
+    });
+</script>
+}

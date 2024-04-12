@@ -1,0 +1,106 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Log out";
+}
+
+
+
+
+
+<!-- Added Bootstrap CSS for proper styling -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+
+
+
+<style>
+    /* Existing CSS styles */
+
+    /* Additional CSS for custom styling */
+    .login-form {
+        background-color: #fff; /* Set background color for the login form */
+        border: 2px solid #fff; /* Set border color to white */
+        border-radius: 15px; /* Adjusted border-radius for a slightly rounded look */
+        padding: 30px; /* Decreased padding for a smaller form */
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1); /* Optional: Add box shadow for depth */
+    }
+
+    .form-input {
+        background-color: #ebebeb !important; /* Override input background color */
+    }
+
+    .form-floating label {
+        color: #000 !important; /* Override label color */
+    }
+
+    .form-floating span {
+        color: #dc3545 !important; /* Override validation message color */
+    }
+
+    /* Align social icons in the same row */
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px; /* Add some gap between icons */
+    }
+
+    /* Adjust the size of social icons */
+    .social-icon {
+        width: 129px;
+        height: 37px;
+    }
+
+    /* Caption for login frame size */
+    .login-frame-caption {
+        font-size: 12px;
+        color: #666;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+<header>
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Center-align the form -->
+            <div class="col-md-5">
+                <!-- Slightly smaller login form -->
+                <section class="text-white login-form">
+                    <form id="account" method="post">
+                        <h2 class="text-center text-black">ĐĂNG XUẤT</h2>
+                        <h6 class=" text-center text-black fs-20 mb-4">Bạn có chắc muốn đăng xuất </h6>
+                        <div>
+                            @{
+                                if (User.Identity?.IsAuthenticated ?? false)
+                                {
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                        <button type="submit" class="w-100 btn btn-dark btn-outline-light">Click here to Logout</button>
+                                    </form>
+                                    <a class="w-100 btn btn-dark btn-outline-light" asp-area="Home"asp-controller="Home" asp-action="Index">Trở về trang chủ</a>
+                                }
+                                else
+                                {
+                                    <p>You have successfully logged out of the application.</p>
+                                }
+                            }
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Existing code -->
+<!-- Existing code -->
+<!-- Existing code -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!-- Bootstrap JavaScript for responsive behavior -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

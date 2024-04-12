@@ -1,0 +1,404 @@
+﻿@model IEnumerable<BaiTh.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    int numOfQuantity = 1;
+}
+<style>
+    #masthead {
+  background-size: cover;
+  background-position: center;
+  overflow: hidden; /* Đảm bảo nội dung không vượt ra khỏi phần header */
+}
+
+.moving-background {
+  width: 200%; /* Kích thước là gấp đôi header để tạo không gian cho hiệu ứng trượt */
+  height: 100%;
+  display: flex;
+}
+
+.moving-background img {
+  width: 50%; /* Mỗi hình ảnh chiếm 50% chiều rộng của moving-background */
+  height: auto;
+  transition: transform 1s ease; /* Thêm transition để tạo hiệu ứng trượt */
+}
+
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANG CHỦ</title>
+    <!-- Bao gồm tệp CSS Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agency - Start Bootstrap Theme</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+     <link href="css/layout1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/ProductIndex.css" />
+</head>
+<body id="page-top">
+    <!-- Navigation-->
+        <a class="navbar-brand" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
+    <!-- Masthead-->
+    <header class="masthead" id="masthead">
+        <div class="container">
+            <div class="masthead-subheading">Welcome To Our Store !</div>
+            <div class="masthead-heading text-uppercase">It's Nice To Meet You</div>
+            <a class="btn btn-secondary btn-xl text-uppercase" href="#portfolio">Shop</a>
+        </div>
+    </header>
+    <!-- Services-->
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <!-- Portfolio Grid-->
+    <section class="page-section " id="portfolio">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Sản Phẩm Hot</h2>
+                <h3 class="section-subheading text-dark">Nam Tính, Trẻ Trung: Khám Phá Phong Cách Mới Tháng 4!</h3>
+            </div>
+            <div class="row mt-3" id="productList">
+                @{
+                    int count = 0;
+                    foreach (var item in Model)
+                    {
+                        if (count < 6)
+                        {
+                            <div class="col-lg-4 col-md-6 mb-4 category-item" data-category="@item.Category.Name">
+                                <div class="product-card">
+                                    <div class="badge">Hot</div>
+                                    <div class="product-tumb">
+                                        <img src="@item.ImageUrl" class="card-img-top" alt="">
+                                    </div>
+                                    <div class="product-details">
+
+                                        <span class="product-catagory">Category: @item.Category.Name </span>
+                                        <h4><a href="">@item.Name</a></h4>
+                                        <div class="product dec" style="text-align: justify;">@item.Description</div>
+                                        <div class="product-price">@item.Price.ToString("#,##0") Vnđ</div>
+                                        <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                                            <input type="hidden" name="productId" value="@item.Id" />
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control" name="quantity" value="1" min="1">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-dark btn-add-to-cart">
+                                                        <i class="bi bi-cart-plus-fill"></i> Thêm vào giỏ hàng
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">@item.Category.Name</small>
+                                                <div class="btn-group">
+                                                    <a href="#" class="btn btn-sm btn-outline-dark">
+                                                        <i class="bi bi-heart"></i>
+                                                    </a>
+                                                    <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Xem thêm</a>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            count++;
+                        }
+                        else
+                        {
+                            break; // Dừng vòng lặp khi đã hiển thị đủ 6 sản phẩm
+                        }
+                    }
+                }
+            </div>
+            <div id="pagination" class="text-center mt-3">
+                <!-- Pagination buttons will be appended here -->
+            </div>
+        </div>
+    </section>
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <div class="offer">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="./images/jd1-removebg-preview.png" class="offer-img">
+                </div>
+
+                <div class="col-2">
+                    <p>Only Availyable in this Store</p>
+                    <h1>Air Jordan 1 Retro High OG Wmns 'Satin Bred' 2023</h1>
+                    <small>
+                       The Air Jordan 1 Retro High OG Wmns 'Satin Bred' 2023 pays tribute to a highly sought-after AJ1 release from 2016. This high-top sneaker showcases the iconic black and red colour combination and features a unique twist with its shiny satin upper.
+                    </small>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Id == 25)
+                        {
+                            <div class="button">
+                                <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Mua Ngay</a>
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <section class="page-section bg-light" id="services">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Dịch vụ khác</h2>
+                <h3 class="section-subheading text-muted">Hãy đến và trải nghiệm những dịch vụ xuất sắc của chúng tôi ngay hôm nay</h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-cart-flatbed  fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Miễn phí ship</h4>
+                    <p class="text-muted">Với dịch vụ vận chuyển nhanh chóng và đáng tin cậy, bạn có thể nhận được đôi giày mới của mình ngay tại cửa nhà, tiết kiệm thời gian và năng lượng để thể hiện phong cách cá nhân một cách dễ dàng và thoải mái.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-brush fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Vệ sinh giày</h4>
+                    <p class="text-muted">chúng tôi cung cấp dịch vụ vệ sinh giày chuyên nghiệp, giúp duy trì độ sáng bóng và sạch sẽ cho đôi giày của bạn, mang đến cảm giác mới mẻ và tự tin mỗi ngày.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-secondary"></i>
+                        <i class="fa-solid fa-right-left fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <h4 class="my-3">Chính sách đổi trả </h4>
+                    <p class="text-muted">Chúng tôi cam kết mang lại sự hài lòng cho khách hàng với dịch vụ đổi trả linh hoạt, giúp bạn yên tâm khi mua sắm và đảm bảo bạn luôn có được sản phẩm hoàn hảo cho phong cách của mình.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <!-- About-->
+    <section class="page-section" id="about">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">About</h2>
+                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+            <ul class="timeline">
+                <li>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4>2009-2011</h4>
+                            <h4 class="subheading">Our Humble Beginnings</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4>March 2011</h4>
+                            <h4 class="subheading">An Agency is Born</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                    </div>
+                </li>
+                <li>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4>December 2015</h4>
+                            <h4 class="subheading">Transition to Full Service</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                    </div>
+                </li>
+                <li class="timeline-inverted">
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg" alt="..." /></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4>July 2020</h4>
+                            <h4 class="subheading">Phase Two Expansion</h4>
+                        </div>
+                        <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                    </div>
+                </li>
+                <
+                <li class="timeline-inverted">
+                    <div class="timeline-image">
+                        <h4>
+                            <a>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a>Thanks</a>
+                                }
+                                else
+                                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" id="register" asp-area="Identity" asp-page="/Account/Register">
+                            Be Part
+                            <br />
+                            Of Our
+                            <br />
+                            Story!
+                        </a>
+                    </li>
+
+                                }
+
+                </a>
+
+                </h4>
+        </div>
+        </li>
+            </ul>
+        </div>
+    </section>
+    <!-- Team-->
+    @* <section class="page-section bg-light" id="team">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase">Our Amazing Team</h2>
+                <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="assets/img/team/1.jpg" alt="..." />
+                        <h4>Parveen Anand</h4>
+                        <p class="text-muted">Lead Designer</p>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Twitter Profile"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Parveen Anand LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="assets/img/team/2.jpg" alt="..." />
+                        <h4>Diana Petersen</h4>
+                        <p class="text-muted">Lead Marketer</p>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Diana Petersen Twitter Profile"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Diana Petersen Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Diana Petersen LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="team-member">
+                        <img class="mx-auto rounded-circle" src="assets/img/team/3.jpg" alt="..." />
+                        <h4>Larry Parker</h4>
+                        <p class="text-muted">Lead Developer</p>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Larry Parker Twitter Profile"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Larry Parker Facebook Profile"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Larry Parker LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p></div>
+            </div>
+        </div>
+    </section> *@
+    <!-- Clients-->
+    <div class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 col-sm-6 my-3">
+                    <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/microsoft.svg" alt="..." aria-label="Microsoft Logo" /></a>
+                </div>
+                <div class="col-md-3 col-sm-6 my-3">
+                    <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/google.svg" alt="..." aria-label="Google Logo" /></a>
+                </div>
+                <div class="col-md-3 col-sm-6 my-3">
+                    <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/facebook.svg" alt="..." aria-label="Facebook Logo" /></a>
+                </div>
+                <div class="col-md-3 col-sm-6 my-3">
+                    <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/ibm.svg" alt="..." aria-label="IBM Logo" /></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact-->
+    
+    <!-- Footer-->
+    
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const header = document.getElementById('masthead');
+        const images = [
+
+            "../images/LandingPoster.png",
+            "../images/anhnen1.png",
+            "../images/anhnen2.png",
+            "../images/anhnen3.png",
+            
+        ];
+
+        let currentImageIndex = 0;
+
+        function changeBackground() {
+            // Tạo một phần tử div ẩn để thay đổi hình nền
+            const tempDiv = document.createElement('div');
+            tempDiv.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+            tempDiv.style.opacity = 0; // Đặt opacity của phần tử div này thành 0 để ẩn nó
+
+            // Thêm phần tử div vào header
+            header.appendChild(tempDiv);
+
+            // Thay đổi opacity của phần tử div từ 0 thành 1 trong khoảng thời gian 1s
+            setTimeout(() => {
+                tempDiv.style.opacity = 1;
+            }, 100);
+
+            // Sau khi opacity đã thay đổi, thực hiện xóa phần tử div và cập nhật ảnh nền mới
+            setTimeout(() => {
+                header.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+                header.removeChild(tempDiv);
+                currentImageIndex = (currentImageIndex + 1) % images.length; // Di chuyển sang ảnh tiếp theo
+            }, 1000);
+        }
+
+        // Thay đổi hình nền sau mỗi 6 giây
+        setInterval(changeBackground, 6000);
+
+    </script>
+    <script src="~/js/itempage.js"></script>
+</body>
+</html>

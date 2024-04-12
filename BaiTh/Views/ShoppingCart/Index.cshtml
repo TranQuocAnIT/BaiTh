@@ -1,0 +1,237 @@
+﻿@model ShoppingCart
+@{
+    decimal  totalAmount = 0;
+    int totalQuantity = 0;
+}
+
+<style>
+    .table-bordered th, .table-bordered td {
+        border: 5px solid #dee2e6 !important;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
+
+    th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    td, th {
+        padding: .75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .empty-cart {
+        font-size: 20px;
+        color: black;
+        text-align: center;
+        position: relative;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .empty-cart-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+
+    .empty-cart-text {
+        display: block;
+    }
+</style>
+@*
+<style>
+    body {
+        background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20210120/pngtree-green-simple-clean-background-image_536886.jpg");
+    }
+</style>
+@if (Model.Items.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng cộng</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td><img src="@item.ImageUrl" alt="@item.Name" style="width:100px;height:auto;"></td>
+                        <td>@item.Name</td>
+                        <td>
+                            <form asp-controller="ShoppingCart" asp-action="UpdateQuantity" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <label for="quantity">Số lượng:</label>
+                                <input type="number" id="quantity" name="quantity" value="@item.Quantity" />
+                                <button class="btn btn-primary" type="submit">Cập nhật</button>
+                            </form>
+                        </td>
+                        <td>@String.Format("{0:C}", item.Price)</td>
+                        <td>@String.Format("{0:C}", item.Price * item.Quantity)</td>
+                        <td>
+                            <a href="@Url.Action("RemoveFromCart",new {productId = item.ProductId})" class="btn btn-danger">Remove</a>
+                            <a href="/ShoppingCart/Checkout" class="btn btn-primary">Checkout</a>
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <a href="/ShoppingCart/Checkout" class="btn btn-dark mt-3">Thanh toán</a>
+}
+else
+{
+    <div class="empty-cart">
+        <i class="bi bi-cart-x-fill empty-cart-icon"></i>
+        <span class="empty-cart-text">Không có sản phẩm nào trong giỏ hàng của bạn.</span>
+    </div>
+} *@
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/indexcart.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Thêm thư viện Bootstrap Icons -->
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/QLBangHangA.styles.css" asp-append-version="true" />
+<section class="h-100 h-custom" style="background-color: darkgray;">
+    @if (Model.Items.Any())
+    {
+    <div class="container bg-dark py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h6 class="mb-0 text-muted">3 items</h6>
+                                    </div>
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            <hr class="my-4">
+
+                                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img src="@item.ImageUrl" class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <h6 class="text-black mb-0">@item.Name</h6>
+                                                    <h6 class="text-muted">----</h6>
+                                                    
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <form asp-controller="ShoppingCart" asp-action="UpdateQuantity" method="post">
+                                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                                        <label for="quantity">Số lượng:  <button><i class="fa-solid fa-arrows-rotate"></i></button></label>
+                                                        <input type="number" id="quantity" name="quantity" value="@item.Quantity" />
+                                                       
+                                                    </form>
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                    <h6 class="mb-0">
+                                                        @String.Format("{0:C}", item.Price * item.Quantity)
+                                                    </h6>
+                                                </div>
+                                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                    <a href="@Url.Action("RemoveFromCart",new {productId = item.ProductId})" class="text-muted"><i class="fas fa-times"></i></a>
+                                                </div>
+                                               
+                                            </div>
+                                            totalAmount += item.Price * item.Quantity;
+                                            totalQuantity += item.Quantity;
+                                        }
+
+
+
+                                    <hr class="my-4">
+
+                                    <div class="pt-5">
+                                        <h6 class="mb-0">
+                                                <a href="/Product/Index" class="text-body">
+                                                    <i class="fas fa-long-arrow-alt-left me-2"></i>Back to shop
+                                            </a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 bg-grey">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Shipping</h3>
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                            <h5 class="text-uppercase">Tổng số lượng : @totalQuantity</h5>
+                                        <h5>@String.Format("{0:C}", totalAmount)</h5>
+                                    </div>
+
+                                    <h5 class="text-uppercase mb-3"></h5>
+
+                                    
+
+                                    <h5 class="text-uppercase mb-3">Promo code</h5>
+
+                                    <div class="mb-5">
+                                        <div data-mdb-input-init class="form-outline">
+                                            <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
+                                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Total price</h5>
+                                            <h5>@String.Format("{0:C}", totalAmount)</h5>
+                                    </div>
+
+                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-block btn-lg"
+                                            data-mdb-ripple-color="dark">
+                                            <a href="/ShoppingCart/Checkout" class="text-white " style="text-decoration: none;">Thanh toán</a>
+                                    </button>
+                                       
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    else
+    {
+        <div class="empty-cart">
+            <i class="bi bi-cart-x-fill empty-cart-icon"></i>
+            <span class="empty-cart-text">Không có sản phẩm nào trong giỏ hàng của bạn.</span>
+        </div>
+    }
+</section>
+

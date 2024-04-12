@@ -1,0 +1,41 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+.card {
+    background-color: transparent;
+}
+
+.card-body {
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.card-title {
+    color: #333;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.form-control {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.btn-primary {
+    border: none;
+    border-radius: 20px;
+    padding: 15px;
+    background: linear-gradient(120deg, #ff9f43, #ff6b6b, #48dbfb);
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(120deg, #ff6b6b, #ff9f43, #48dbfb);
+    transition: background 0.3s ease;
+}
