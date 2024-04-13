@@ -2,12 +2,14 @@
 using BaiTh.Extensions;
 using BaiTh.Models;
 using BaiTh.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaiTh.Controllers
 {
-    public class ShoppingCartController : Controller
+	[Authorize]
+	public class ShoppingCartController : Controller
     {
         private readonly IProductRepository _productRepository;
         //public ShoppingCartController(IProductRepository productRepository)
