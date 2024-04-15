@@ -1,0 +1,216 @@
+﻿@model IEnumerable<BaiTh.Models.Product>
+@using Microsoft.AspNetCore.Identity
+<style>
+    #masthead {
+        background-size: cover;
+        background-position: center;
+        overflow: hidden; /* Đảm bảo nội dung không vượt ra khỏi phần header */
+    }
+
+    .moving-background {
+        width: 200%; /* Kích thước là gấp đôi header để tạo không gian cho hiệu ứng trượt */
+        height: 100%;
+        display: flex;
+    }
+
+        .moving-background img {
+            width: 50%; /* Mỗi hình ảnh chiếm 50% chiều rộng của moving-background */
+            height: auto;
+            transition: transform 1s ease; /* Thêm transition để tạo hiệu ứng trượt */
+        }
+
+    #videoContainer {
+        position: relative;
+    }
+
+    #productInfo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 1; /* Đảm bảo các dòng chữ hiển thị trên video */
+    }
+
+        #productInfo h2 {
+            font-size: 2em;
+        }
+
+        #productInfo p {
+            font-size: 1.2em;
+        }
+
+        #productInfo button {
+            background-color: #CCE6F4;
+            color: white;
+        }
+
+            /* Khi di chuột vào nút mua ngay */
+            #productInfo button:hover {
+                background-color: #45a049;
+            }
+
+</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRANG CHỦ</title>
+    <!-- Bao gồm tệp CSS Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Agency - Start Bootstrap Theme</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="css/layout1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/ProductIndex.css" />
+</head>
+<body>
+    <div id="productInfo">
+        <h2>Air Jordan 1 Retro High OG 'Royal Toe'</h2>
+        <p>Introducing the ir Jordan 1 Retro High OG 'Royal Toe', the ultimate in comfort and style. Get yours now!</p>
+        @foreach (var item in Model)
+        {
+            if (item.Id == 37)
+            {
+                <div class="button">
+                    <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Mua Ngay</a>
+                </div>
+            }
+        }
+
+    </div>
+    <div class="offer">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="./images/jd1-removebg-preview.png" class="offer-img">
+                </div>
+                <div class="col-2">
+                    <p>Only Availyable in this Store</p>
+                    <h1>Air Jordan 1 Retro High OG Wmns 'Satin Bred' 2023</h1>
+                    <small>
+                        The Air Jordan 1 Retro High OG Wmns 'Satin Bred' 2023 pays tribute to a highly sought-after AJ1 release from 2016. This high-top sneaker showcases the iconic black and red colour combination and features a unique twist with its shiny satin upper.
+                    </small>
+                    @foreach (var item in Model)
+                    {
+                        if (item.Id == 25)
+                        {
+                            <div class="button">
+                                <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Mua Ngay</a>
+                            </div>
+                        }
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s7.jpg" alt="Seventh slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s8.jpg" alt="Eighth slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s9.jpg" alt="Ninth slide">
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item ">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s1.jpg" alt="First slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s2.jpg" alt="Second slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s3.jpg" alt="Third slide">
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s4.jpg" alt="Fourth slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s5.jpg" alt="Fifth slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s6.jpg" alt="Sixth slide">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s10.jpg" alt="Tenth slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s11.jpg" alt="Eleventh slide">
+                        </div>
+                        <div class="col-md-4">
+                            <img class="d-block w-100" src="~/images/s1.jpg" alt="Twelfth slide">
+                        </div>
+                    </div>
+                </div>
+                <!-- Thêm các carousel-item khác ở đây tương tự như trên -->
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#myCarousel').carousel({
+                interval: 1000, // Đặt thời gian trễ giữa các slide là 1 giây (1000ms)
+                wrap: true // Cho phép tự động quay lại slide đầu tiên sau khi hoàn thành tất cả các slide
+            });
+        });
+    </script>
+    <!-- Bootstrap core JS-->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- SB Forms JS -->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <script src="~/js/itempage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Auto play video
+            var video = document.getElementById("productVideo");
+            video.play();
+
+
+        });
+    </script>
+</body>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}

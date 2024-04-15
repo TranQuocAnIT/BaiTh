@@ -3,34 +3,96 @@
 @{
     ViewData["Title"] = "Index";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    /* Chỉnh màu cho card header */
+    .card-header {
+        background-color: #50514F;
+        color: white;
+    }
 
-<h1>Trang Chủ</h1>
+    /* Chỉnh màu cho button Create New Category */
+    .btn-primary {
+        background-color: #50514F;
+        border: none;
+    }
 
-<p style="text-align: right">
-   
-    
-</p>
+    /* Chỉnh màu cho table header */
+    .table thead th {
+        background-color: #969A97;
+        color: white;
+    }
 
-<div class="container mt-4">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        @foreach (var item in Model)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    <img src="@item.ImageUrl" class="card-img-top" alt="Product Image">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <p class="card-text">@item.Description</p>
-                        <p class="card-text">Giá: @item.Price</p>
-
-                    </div>
-                    <div class="card-footer">
-                        <a href="@Url.Action("Update", new { id = item.Id })" class="btn btn-primary">Cập nhật</a>
-                        <a href="@Url.Action("Display", new { id = item.Id })" class="btn btn-secondary">Chi tiết</a>
-                        <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Xoá</a>
-                    </div>
+    /* Chỉnh màu cho button Edit và Delete */
+    .btn-primary, .btn-danger {
+        color: white;
+    }
+</style>
+<body>
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Danh sách sản phẩm</h2>
                 </div>
             </div>
-        }
+        </div>
+        <div class="card-body p-4">
+            <div class="row pb-3">
+                <div class="col-6">
+                </div>
+                <div class="col-6 text-end">
+                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Nhập từ khóa tìm kiếm...">
+                    <a asp-controller="ProductManager" asp-action="Add" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i>Create New Product
+                    </a>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="productList">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="Product Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                    <p class="card-text">@item.Description</p>
+                                    <p class="card-text">Giá: @item.Price</p>
+
+                                </div>
+                                <div class="card-footer">
+
+                                    <a href="@Url.Action("Update", new { id = item.Id })" class="btn btn-primary">Cập nhật</a>
+                                    <a href="@Url.Action("Display", new { id = item.Id })" class="btn btn-secondary">Chi tiết</a>
+                                    <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Xoá</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <!-- Link to jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var searchText = $(this).val().toLowerCase();
+                $('#productList .col').each(function () {
+                    var productName = $(this).find('.card-title').text().toLowerCase();
+                    if (productName.indexOf(searchText) === -1) {
+                        $(this).hide();
+                    } else {
+                        $(this).show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>

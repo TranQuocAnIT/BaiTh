@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BaiTh.Controllers
 {
-	[Authorize]
-	public class ShoppingCartController : Controller
+    [Authorize(Roles = "Customer")]
+    public class ShoppingCartController : Controller
     {
         private readonly IProductRepository _productRepository;
         //public ShoppingCartController(IProductRepository productRepository)

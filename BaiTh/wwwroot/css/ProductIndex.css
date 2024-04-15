@@ -97,7 +97,7 @@ a {
 
 .product-price {
     font-size: 24px;
-    color: #fbb72c;
+    color: #363636;
     font-weight: 600;
 }
 
@@ -127,13 +127,44 @@ a {
         }
 .product-card {
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0); /* Bắt đầu với đổ bóng trong suốt */
+    box-shadow: 0 0 10px rgba(128, 128, 128, 0.5);
+
 }
 
     .product-card:hover {
         transform: scale(1.05);
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); /* Khi hover, thay đổi đổ bóng thành màu đỏ */
+        box-shadow: 0 0 10px rgba(128, 128, 128, 0.5);
+        /* Khi hover, thay đổi đổ bóng thành màu đỏ */
     }
 #productList .category-item {
     margin-bottom: 20px; /* Đặt giá trị margin-bottom tùy ý */
+}
+.carousel-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+.carousel-item {
+    transition: transform 2s ease;
+}
+
+    .carousel-item.active {
+        transform: translateX(0);
+    }
+
+.carousel-item-next.carousel-item-left,
+.carousel-item-prev.carousel-item-right {
+    transform: translateX(0);
+}
+
+.carousel-item-next,
+.active.carousel-item-right {
+    transform: translateX(100%);
+}
+
+.carousel-item-prev,
+.active.carousel-item-left {
+    transform: translateX(-100%);
 }

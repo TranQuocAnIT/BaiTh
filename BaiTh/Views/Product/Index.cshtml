@@ -13,11 +13,99 @@
 </style>*@
 
  <style>
+    .input[type = "text"] {
+        display: block;
+        color: rgb(34, 34, 34);
+        background: linear-gradient(142.99deg, rgba(217, 217, 217, 0.63) 15.53%, rgba(243, 243, 243, 0.63) 88.19%);
+        box-shadow: 0px 12px 24px -1px rgba(0, 0, 0,0.18);
+        border-color: rgba(7, 4, 14, 0);
+        border-radius: 50px;
+        block-size: 20px;
+        margin: 7px auto;
+        padding: 18px 15px;
+        outline: none;
+        text-align: center;
+        width: 400px;
+        transition: 0.5s;
+    }
+
+        .input[type = "text"]:hover {
+            width: 410px;
+        }
+
+        .input[type = "text"]:focus {
+            width: 420px;
+        }
     .page-item.active .page-link {
         background-color: black !important;
         color: white !important;
     }
 
+    .paste-button {
+  position: relative;
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.button {
+        background-color: #50514F;
+  color: white;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: bold;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  font-size: 13px;
+  position: absolute;
+  z-index: 1;
+  min-width: 200px;
+        background-color: #FCFCFC;
+        border: 2px solid #50514F;
+  border-radius: 0px 15px 15px 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+            color: #50514F;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  transition: 0.1s;
+}
+
+.dropdown-content a:hover {
+                background-color: #50514F;
+                color: #FCFCFC;
+}
+
+.dropdown-content a:focus {
+                background-color: #FCFCFC;
+                color: #50514F;
+}
+
+.dropdown-content #top:hover {
+  border-radius: 0px 13px 0px 0px;
+}
+
+.dropdown-content #bottom:hover {
+  border-radius: 0px 0px 13px 13px;
+}
+
+.paste-button:hover button {
+  border-radius: 15px 15px 0px 0px;
+}
+
+.paste-button:hover .dropdown-content {
+  display: block;
+
+}
+
+    
 
 </style>
 
@@ -27,22 +115,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRANG CHỦ</title>
-    <!-- Bao gồm tệp CSS Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>Agency - Start Bootstrap Theme</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome icons (free version) -->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/layout1.css"/>
     <link rel="stylesheet" href="~/css/ProductIndex.css" />
 </head>
 <body id="page-top">
@@ -55,30 +146,103 @@
     <section class="page-section " id="portfolio">
         <div class="container">
             <div class="text-center">
-
-                <h2 class="section-heading text-uppercase">Sản Phẩm </h2>
-                <h3 class="section-subheading text-dark">Khám Phá Phong Cách Mới Tháng 4</h3>
-
+        
+                    <h2 class="section-heading text-uppercase" style="font-size: 80px;">Sản Phẩm</h2>
+                    <h3 class="section-subheading">Khám Phá Phong Cách Mới Tháng 4</h3>
+                    <a class="btn btn-dark btn-xl text-uppercase" href="#productList">Shop</a>
+                
             </div>
-            <div class="list-group" id="categoryList">
-                <a href="#" class="list-group-item list-group-item-action category-item" data-category="">Tất cả sản phẩm</a>
-                @foreach (var category in Model.Select(p => p.Category.Name).Distinct())
-                {
-                    <a href="#" class="list-group-item list-group-item-action category-item" data-category="@category">Tìm theo loại: @category</a>
-                }
+        </div>
+        <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+        <div class="container">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s7.jpg" alt="Seventh slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s8.jpg" alt="Eighth slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s9.jpg" alt="Ninth slide">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item ">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s1.jpg" alt="First slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s2.jpg" alt="Second slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s3.jpg" alt="Third slide">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s4.jpg" alt="Fourth slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s5.jpg" alt="Fifth slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s6.jpg" alt="Sixth slide">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s10.jpg" alt="Tenth slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s11.jpg" alt="Eleventh slide">
+                            </div>
+                            <div class="col-md-4">
+                                <img class="d-block w-100" src="~/images/s1.jpg" alt="Twelfth slide">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Thêm các carousel-item khác ở đây tương tự như trên -->
+                </div>
             </div>
+        </div>
+            <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+        <div class="card shadow border-0 mt-4">
             <div class="container">
                 <div class="row mt-3">
-
-                    <div class="col-md-6 mb-4">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo tên sản phẩm">
+                    <div class="col-md-3">
+                        <!-- Sử dụng lớp col-md-3 cho mỗi cột, tổng chiều rộng sẽ là 12 nên bạn có thể đặt từ 1-12 để điều chỉnh chiều rộng -->
+                        <input type="text" id="searchInput" name="text" placeholder="Tìm Sản Phẩm" class="input">
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <button id="searchButton" class="btn btn-dark">Tìm kiếm</button>
-                        <button id="showAllButton" class="btn btn-dark">Hiển thị tất cả sản phẩm</button>
+                    <div class="col-md-3">
+                        <button id="searchButton" class="button">Tìm kiếm</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="paste-button">
+                            <button class="button" id="showAllButton">
+                                <a href="#" class="list-group-item list-group-item-action category-item" data-category=""></a>Tất cả sản phẩm▼
+                            </button>
+                            <div class="dropdown-content">
+                                @foreach (var category in Model.Select(p => p.Category.Name).Distinct())
+                                {
+                                    <a href="#" class="list-group-item list-group-item-action category-item" data-category="@category">Tìm theo loại: @category</a>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
             @{
                 // Số sản phẩm trên mỗi trang
                 var itemsPerPage = 9;
@@ -96,7 +260,7 @@
                 // Dữ liệu sản phẩm trên trang hiện tại
                 var currentPageItems = Model.Skip(startIndex).Take(itemsPerPage);
             }
-
+        
             <div class="row mt-3" id="productList">
                 @foreach (var item in currentPageItems)
                 {
@@ -141,6 +305,7 @@
                         </div>
                     </div>
                 }
+            </div>
             </div>
 
             <!-- Nút chuyển trang -->
@@ -199,24 +364,11 @@
     <!-- Contact-->
     <!-- Footer-->
     <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-    <!-- * *                               SB Forms JS                               * *-->
-    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- SB Forms JS -->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-
-
-
-
-
-@section Scripts {
     <script>
         $(document).ready(function () {
             $(".category-item").on("click", function () {
@@ -233,16 +385,31 @@
         });
     </script>
     <script>
-    $(document).ready(function() {
-        $('#searchButton').click(function() {
-            var searchText = $('#searchInput').val().toLowerCase();
-            $('.category-item').hide().filter(function() {
-                return $(this).text().toLowerCase().indexOf(searchText) !== -1;
-            }).show();
-        });
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                var searchText = $('#searchInput').val().toLowerCase();
+                $('.category-item').hide().filter(function () {
+                    return $(this).text().toLowerCase().indexOf(searchText) !== -1;
+                }).show();
+            });
             $('#showAllButton').click(function () {
                 $('.category-item').show();
             });
-    });
-</script>
-}
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#myCarousel').carousel({
+                interval: 1000, // Đặt thời gian trễ giữa các slide là 1 giây (1000ms)
+                wrap: true // Cho phép tự động quay lại slide đầu tiên sau khi hoàn thành tất cả các slide
+            });
+        });
+    </script>
+</body>
+
+
+
+
+
+
+

@@ -26,6 +26,39 @@
   transition: transform 1s ease; /* Thêm transition để tạo hiệu ứng trượt */
 }
 
+    #videoContainer {
+        position: relative;
+    }
+
+    #productInfo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        z-index: 1; /* Đảm bảo các dòng chữ hiển thị trên video */
+    }
+
+        #productInfo h2 {
+            font-size: 2em;
+        }
+
+        #productInfo p {
+            font-size: 1.2em;
+        }
+
+        #productInfo button {
+          
+            background-color: #CCE6F4;
+            color: white;
+           
+        }
+
+            /* Khi di chuột vào nút mua ngay */
+            #productInfo button:hover {
+                background-color: #45a049;
+            }
 
 </style>
 <!DOCTYPE html>
@@ -68,6 +101,28 @@
     </header>
     <!-- Services-->
     <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
+    <div id="videoContainer">
+        <video id="productVideo" autoplay muted loop>
+            <source src="~/images/Nike Shoes Ad Motion Graphics.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div id="productInfo">
+            <h2>Air Jordan 1 Retro High OG 'Royal Toe'</h2>
+            <p>Introducing the ir Jordan 1 Retro High OG 'Royal Toe', the ultimate in comfort and style. Get yours now!</p>
+            @foreach (var item in Model)
+            {
+                if (item.Id == 37)
+                {
+                    <div class="button">
+                        <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Mua Ngay</a>
+                    </div>
+                }
+            }
+            
+        </div>
+    </div>
+
+    <div style="height: 5px; background-color: #000; margin: 25px 0;"></div>
     <!-- Portfolio Grid-->
     <section class="page-section " id="portfolio">
         <div class="container">
@@ -75,6 +130,7 @@
                 <h2 class="section-heading text-uppercase">Sản Phẩm Hot</h2>
                 <h3 class="section-subheading text-dark">Nam Tính, Trẻ Trung: Khám Phá Phong Cách Mới Tháng 4!</h3>
             </div>
+            <div class="card shadow border-0 mt-4">
             <div class="row mt-3" id="productList">
                 @{
                     int count = 0;
@@ -132,6 +188,7 @@
                     }
                 }
             </div>
+            </div>
             <div id="pagination" class="text-center mt-3">
                 <!-- Pagination buttons will be appended here -->
             </div>
@@ -144,7 +201,6 @@
                 <div class="col-2">
                     <img src="./images/jd1-removebg-preview.png" class="offer-img">
                 </div>
-
                 <div class="col-2">
                     <p>Only Availyable in this Store</p>
                     <h1>Air Jordan 1 Retro High OG Wmns 'Satin Bred' 2023</h1>
@@ -367,8 +423,8 @@
             "../images/LandingPoster.png",
             "../images/anhnen1.png",
             "../images/anhnen2.png",
-            "../images/anhnen3.png",
-            "../images/banner.png"
+            "../images/anhnen3.jpg",
+            "../images/anhnen4.png"
             
         ];
 
@@ -397,9 +453,19 @@
         }
 
         // Thay đổi hình nền sau mỗi 6 giây
-        setInterval(changeBackground, 6000);
+        setInterval(changeBackground, 3000);
 
     </script>
     <script src="~/js/itempage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Auto play video
+            var video = document.getElementById("productVideo");
+            video.play();
+
+           
+        });
+    </script>
 </body>
 </html>

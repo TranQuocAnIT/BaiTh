@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<BaiTh.Models.Order>
-
 @{
     
 }
@@ -9,14 +8,52 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"]</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
+<style>
+    /* Chỉnh màu cho card header */
+    .card-header {
+        background-color: #50514F;
+        color: white;
+    }
 
+    /* Chỉnh màu cho button Create New Category */
+    .btn-primary {
+        background-color: #50514F;
+        border: none;
+    }
+
+    /* Chỉnh màu cho table header */
+    .table thead th {
+        background-color: #969A97;
+        color: white;
+    }
+
+    /* Chỉnh màu cho button Edit và Delete */
+    .btn-primary, .btn-danger {
+        color: white;
+    }
+</style>
+<body>
+   
     <div class="container">
-        <h1>Orders</h1>
-        <table class="table table-striped">
+        <div class="card shadow border-0 mt-4">
+            <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="text-white py-2">Order List</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="row pb-3">
+                    <div class="col-6">
+                    </div>
+
+                </div>
+                <input type="text" id="searchInput" class="form-control mb-4" placeholder="Nhập từ khóa tìm kiếm...">
+                <table id="orderTable" class="table table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>Mã</th>
@@ -25,8 +62,8 @@
                    
                     <th>Tổng tiền</th>
                     <th>Địa chỉ</th>
-                    <th>Ghi chú</th>
-                    <th>Chi Tiết</th>
+                    <th>SDT</th>
+                    <th>Chi Tiết</th>   
                 </tr>
             </thead>
             <tbody>
@@ -40,12 +77,30 @@
                         <td>@item.TotalPrice.ToString("C")</td>
                         <td>@item.ShippingAddress</td>
                         <td>@item.Notes</td>
-                        <th> <a  asp-controller="Order" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Xem thêm</a></th>
+                       @*  <th> <a  asp-controller="Order" asp-action="Display" asp-route-id="@item.Cartitemid" class="btn btn-sm btn-secondary">Xem thêm</a></th> *@
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
+    </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#searchInput').on('keyup', function () {
+                    var searchText = $(this).val().toLowerCase();
+                    $('#orderTable tbody tr').each(function () {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
 </body>
 </html>

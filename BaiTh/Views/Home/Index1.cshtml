@@ -1,0 +1,14 @@
+﻿ <div id="productInfo">
+            <h2>Air Jordan 1 Retro High OG 'Royal Toe'</h2>
+            <p>Introducing the ir Jordan 1 Retro High OG 'Royal Toe', the ultimate in comfort and style. Get yours now!</p>
+            @foreach (var item in Model)
+            {
+                if (item.Id == 37)
+                {
+                    <div class="button">
+                        <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Mua Ngay</a>
+                    </div>
+                }
+            }
+            
+        </div>
